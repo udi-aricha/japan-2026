@@ -22,7 +22,7 @@ function stayBlock(k,full,open){
     <dt>טלפון</dt><dd class="mono">${esc(s.tel)}</dd>
     ${full?`<dt>הזמנה</dt><dd class="mono">${esc(s.ref)}</dd><dt>צ'ק-אין</dt><dd>${esc(s.in)}</dd><dt>צ'ק-אאוט</dt><dd>${esc(s.out)}</dd><dt>תשלום</dt><dd>${esc(s.pay)}</dd>`:""}
     <dt>כניסה</dt><dd>${esc(s.entry)}</dd></dl>
-   <div class="btns"><a class="btn solid" href="${G(s.en)}" target="_blank" rel="noopener">ניווט</a>
+   <div class="btns"><a class="btn solid" href="${s.nav||G(s.en)}" target="_blank" rel="noopener">${esc(s.navLabel||"ניווט")}</a>
     <button class="btn" data-copy="${esc(s.jp)}">העתק כתובת ביפנית</button>
     <button class="btn" data-copy="${esc(s.tel)}">העתק טלפון</button>
     ${(s.links||[]).map(l=>lnk(l)).join("")}</div>`;
