@@ -48,6 +48,7 @@ function dayView(k){
   const i=DAYS.findIndex(x=>x.d===k), x=DAYS[i], R=REG[x.r];
   const sh=x.sh?`<div class="shabbat">${FLAME}<div><div class="lbl">${x.sh[0]==="in"?"כניסת שבת":"צאת שבת"} · ${esc(R.he)}</div><div class="tm mono">${esc(x.sh[1])}</div><div class="n">${esc(x.sh[2])}</div></div></div>`:"";
   const fx=x.fx.length?`<section class="stack" style="gap:8px"><h2>בשעה קבועה</h2><div class="fixed">${x.fx.map(f=>`<div class="fx"><span class="t">${esc(f[0])}</span><div class="w"><div>${esc(f[1])}</div>${f[2]?`<div class="n">${esc(f[2])}</div>`:""}${f[3]?`<span class="remind">${esc(f[3])}</span>`:""}${f[4]?`<div style="margin-top:6px">${lnk(LINKS[f[4]],"sm")}</div>`:""}</div></div>`).join("")}</div></section>`:"";
+  const gd=x.guide?`<details class="fold" open><summary>${esc(x.guide.title)}</summary><div class="fixed" style="margin-top:8px">${x.guide.steps.map(g=>{const [a,...b]=g[2].split("\n");return `<div class="fx"><span class="t">${esc(g[0])}</span><div class="w"><div><b>${esc(g[1])}</b></div><div class="n">${esc(a)}</div>${b.map(e=>`<div class="n" dir="ltr" style="text-align:left">${esc(e)}</div>`).join("")}</div></div>`}).join("")}</div>${x.guide.note?`<p class="small muted" style="margin:6px 0 0">${esc(x.guide.note)}</p>`:""}</details>`:"";
   const tl=TASKS[k]||[];
   const tk=tl.length?`<details class="fold tasks"><summary>משימות <span class="count">${tl.length}</span></summary><div class="tlist">${tl.map(t=>`<a class="trow" href="${TD(t[2])}" target="_blank" rel="noopener"><span class="box p${t[1]}"></span><span>${esc(t[0])}</span></a>`).join("")}</div><p class="small muted" style="margin:6px 0 0">מסמנים ביצוע ב-Todoist.</p></details>`:"";
   const info=i=>i?`<details class="fold pinfo"><summary>שעות, מחיר וקישורים</summary><dl class="kv">${i.h?`<dt>שעות</dt><dd>${esc(i.h)}</dd>`:""}${i.p?`<dt>מחיר</dt><dd>${esc(i.p)}</dd>`:""}${i.v?`<dt>ודאות</dt><dd class="small muted">${esc(i.v)}</dd>`:""}</dl><div class="btns">${(i.links||[]).map(l=>lnk(l,"sm")).join("")}</div></details>`:"";
@@ -61,7 +62,7 @@ function dayView(k){
       <div class="kanji" lang="ja" aria-hidden="true">${R.k}</div>
       <div class="meta">${i===0&&daysToGo()>0?`עוד ${daysToGo()} ימים · `:""}יום ${i+1} מתוך ${DAYS.length} · ${x.dow} ${fmt(x.d)}</div>
       <h1>${esc(x.title)}</h1><div class="where">${esc(R.he)}</div></div>
-    ${sh}${mp}${tk}${fx}${pl}${st}
+    ${sh}${mp}${tk}${fx}${gd}${pl}${st}
     <div class="pager">${prev?`<button class="btn" data-go="${prev.d}">→ ${prev.dow} ${fmt(prev.d)}</button>`:"<span></span>"}${next?`<button class="btn" data-go="${next.d}">${next.dow} ${fmt(next.d)} ←</button>`:""}</div>
     <div class="sync"><i class="${navigator.onLine?"on":"off"}"></i>${navigator.onLine?"מחובר":"בלי קליטה — מוצגת הגרסה השמורה"} · עודכן ${UPDATED}</div>
   </div>`;
