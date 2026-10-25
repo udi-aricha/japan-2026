@@ -28,6 +28,22 @@ function stayBlock(k,full,open){
     ${(s.links||[]).map(l=>lnk(l)).join("")}</div>`;
 }
 
+function mapPts(x){return x.pl.filter(p=>p[4]&&p[4].c).map(p=>({p,c:p[4].c,n:p[0],u:p[2]}))}
+let LP=null;
+function loadLeaflet(){if(window.L)return Promise.resolve();if(LP)return LP;
+  LP=new Promise((ok,no)=>{const c=document.createElement("link");c.rel="stylesheet";c.href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css";document.head.appendChild(c);
+    const j=document.createElement("script");j.src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js";j.onload=ok;j.onerror=()=>{LP=null;no()};document.head.appendChild(j)});return LP}
+function drawDayMap(){const el=document.getElementById("daymap");if(!el)return;const x=DAYS.find(d=>d.d===cur);const pts=mapPts(x);
+  loadLeaflet().then(()=>{if(!document.body.contains(el))return;
+    const m=L.map(el,{scrollWheelZoom:false,attributionControl:true,zoomControl:true});
+    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",{maxZoom:19,attribution:"© OpenStreetMap"}).addTo(m);
+    const all=[];
+    pts.forEach((q,n)=>{const ic=L.divIcon({className:"mk"+(q.p[3]?" alt":""),html:`<span>${n+1}</span>`,iconSize:[28,28],iconAnchor:[14,14]});
+      L.marker(q.c,{icon:ic,title:q.n}).addTo(m).bindPopup(`<b>${esc(q.n)}</b><br><a href="${q.u}" target="_blank" rel="noopener">פתח בגוגל מפות ↗</a>`);all.push(q.c)});
+    const g=x.sleep&&GEO[x.sleep];if(g){const ic=L.divIcon({className:"mk home",html:"<span>🏠</span>",iconSize:[30,30],iconAnchor:[15,15]});
+      L.marker([g[0],g[1]],{icon:ic,title:STAYS[x.sleep].name}).addTo(m).bindPopup(`<b>${esc(STAYS[x.sleep].name)}</b>`);all.push([g[0],g[1]])}
+    m.fitBounds(all,{padding:[24,24],maxZoom:16});
+  }).catch(()=>{const h=el.parentNode.querySelector('.maphint');if(h)h.remove();el.outerHTML='<div class="free small">המפה לא נטענה — אין קליטה. המקומות ברשימה למטה.</div>'})}
 function dayView(k){
   const i=DAYS.findIndex(x=>x.d===k), x=DAYS[i], R=REG[x.r];
   const sh=x.sh?`<div class="shabbat">${FLAME}<div><div class="lbl">${x.sh[0]==="in"?"כניסת שבת":"צאת שבת"} · ${esc(R.he)}</div><div class="tm mono">${esc(x.sh[1])}</div><div class="n">${esc(x.sh[2])}</div></div></div>`:"";
@@ -35,15 +51,17 @@ function dayView(k){
   const tl=TASKS[k]||[];
   const tk=tl.length?`<details class="fold tasks"><summary>משימות <span class="count">${tl.length}</span></summary><div class="tlist">${tl.map(t=>`<a class="trow" href="${TD(t[2])}" target="_blank" rel="noopener"><span class="box p${t[1]}"></span><span>${esc(t[0])}</span></a>`).join("")}</div><p class="small muted" style="margin:6px 0 0">מסמנים ביצוע ב-Todoist.</p></details>`:"";
   const info=i=>i?`<details class="fold pinfo"><summary>שעות, מחיר וקישורים</summary><dl class="kv">${i.h?`<dt>שעות</dt><dd>${esc(i.h)}</dd>`:""}${i.p?`<dt>מחיר</dt><dd>${esc(i.p)}</dd>`:""}${i.v?`<dt>ודאות</dt><dd class="small muted">${esc(i.v)}</dd>`:""}</dl><div class="btns">${(i.links||[]).map(l=>lnk(l,"sm")).join("")}</div></details>`:"";
-  const pl=x.pl.length?`<section class="stack" style="gap:8px"><h2>מה יש היום</h2><div class="places">${x.pl.map(p=>`<div class="place"><span class="pin">${PIN}</span><div class="body"><h3>${esc(p[0])}${p[3]?'<span class="tag">הצעה</span>':""}</h3><p>${esc(p[1])}</p>${info(p[4])}</div><a class="go" href="${p[2]}" target="_blank" rel="noopener">לשם</a></div>`).join("")}</div></section>`:(x.free?`<div class="free">${esc(x.free)}</div>`:"");
-  const st=x.sleep?`<section class="stack" style="gap:8px"><h2>ישנים הלילה</h2><div class="tonight"><div class="top"><h3>${esc(STAYS[x.sleep].name)}</h3><span class="small muted">${esc(STAYS[x.sleep].area)}</span></div>${stayBlock(x.sleep,false,CHECKIN_DAY[k]===x.sleep)}</div></section>`:"";
+  const pl=x.pl.length?`<section class="stack" style="gap:8px"><h2>מה יש היום</h2><div class="places">${x.pl.map(p=>`<div class="place"><span class="pin">${p[4]&&p[4].c?`<b class="num">${mapPts(x).findIndex(m=>m.p===p)+1}</b>`:PIN}</span><div class="body"><h3>${esc(p[0])}${p[3]?'<span class="tag">הצעה</span>':""}</h3><p>${esc(p[1])}</p>${info(p[4])}</div><a class="go" href="${p[2]}" target="_blank" rel="noopener">לשם</a></div>`).join("")}</div></section>`:(x.free?`<div class="free">${esc(x.free)}</div>`:"");
+  const st=x.sleep?`<details class="fold tonightfold"${CHECKIN_DAY[k]===x.sleep?" open":""}><summary>ישנים הלילה · ${esc(STAYS[x.sleep].name)}<span class="small muted" style="font-weight:400">${esc(STAYS[x.sleep].area)}</span></summary><div class="tonight">${stayBlock(x.sleep,false,CHECKIN_DAY[k]===x.sleep)}</div></details>`:"";
+  const pts=mapPts(x);
+  const mp=pts.length?`<section class="daymapbox"><div id="daymap" class="daymap" role="img" aria-label="מפת המקומות של היום"></div><p class="small muted maphint">מספרים = המקומות ברשימה · 🏠 = הלינה. לחיצה על נקודה פותחת אותה בגוגל מפות.</p></section>`:"";
   const prev=DAYS[i-1], next=DAYS[i+1];
   return `<div class="stack rg-${x.r}">
     <div class="hero" data-r="${x.r}"><canvas aria-hidden="true"></canvas>
       <div class="kanji" lang="ja" aria-hidden="true">${R.k}</div>
       <div class="meta">${i===0&&daysToGo()>0?`עוד ${daysToGo()} ימים · `:""}יום ${i+1} מתוך ${DAYS.length} · ${x.dow} ${fmt(x.d)}</div>
       <h1>${esc(x.title)}</h1><div class="where">${esc(R.he)}</div></div>
-    ${sh}${tk}${fx}${pl}${st}
+    ${sh}${mp}${tk}${fx}${pl}${st}
     <div class="pager">${prev?`<button class="btn" data-go="${prev.d}">→ ${prev.dow} ${fmt(prev.d)}</button>`:"<span></span>"}${next?`<button class="btn" data-go="${next.d}">${next.dow} ${fmt(next.d)} ←</button>`:""}</div>
     <div class="sync"><i class="${navigator.onLine?"on":"off"}"></i>${navigator.onLine?"מחובר":"בלי קליטה — מוצגת הגרסה השמורה"} · עודכן ${UPDATED}</div>
   </div>`;
@@ -81,6 +99,7 @@ function render(){
   const r=DAYS.find(x=>x.d===cur).r; document.querySelector("nav.tabs").className="tabs rg-"+(tab==="today"?r:"tokyo");
   v.querySelectorAll("[data-go]").forEach(b=>b.addEventListener("click",()=>{cur=b.dataset.go;show("today")}));
   v.querySelectorAll(".hero").forEach(drawHero);
+  if(tab==="today")drawDayMap();
   v.querySelectorAll("canvas.qr").forEach(drawQR);
   v.classList.remove("view");void v.offsetWidth;v.classList.add("view");
 }
