@@ -93,9 +93,11 @@ const KP={
    links:[["אתר רשמי","https://www.momak.go.jp/English/guide/"]]},
  crafts:{c:[35.0132124,135.7812074],h:"10:00–18:00, כניסה אחרונה 17:30. ימי סגירה לפי לוח באתר (1/11 פתוח)",p:"500 ין למבוגר (לא חינם). ב-1/11 2025 הכניסה הייתה חינם — 2026 לא אומת",v:"האתר הרשמי",
    links:[["אתר רשמי","https://kmtc.jp/en/guide-en-2/"]]},
+ chabad:{c:[35.0160516,135.7886323],h:"מנחה 5 דק' אחרי הדלקת נרות; קבלת שבת וארוחה — חצי שעה אחרי הדלקת נרות",p:"ארוחה בהרשמה מראש — המחיר לא מופיע באתר",v:"האתר הרשמי (chabadkyoto.com). כ-1.3 ק\"מ מהדירה, כרבע שעה ברגל — משוער לפי המפה",
+   links:[["הרשמה לארוחת שבת","https://www.cognitoforms.com/ChabadTokyo1/ShabbatMealReservationChabadOfKyoto"],["אתר רשמי — שבת","https://www.chabadkyoto.com/shabbat"],["וואטסאפ +81 90-3684-7707","https://wa.me/819036847707"],[HE+"למטייל","https://www.lametayel.co.il/tips/odle7e"]]},
  vivo:{c:[35.0435581,135.7617996],h:"שני, חמישי–שבת 12:00–19:00; ראשון 12:00–18:00; סגור שלישי–רביעי",p:"—",v:"גוגל מפות. החנות בקומה 2, 400 מ' מתחנת קיטאוג'י (קו קרסומה)",links:[]}
 };
-const KID={kiyomizu:"ChIJB_vchdMIAWARujTEUIZlr2I",sannenzaka:"ChIJr_gZonkIAWARB1xyACZNUKM",kodaiji:"ChIJuU17z9oIAWARgMhsX3kqUSQ",nene:"ChIJu7AHKsUIAWARU2jHH_p7vas",yasaka:"ChIJqewQoHkIAWAR6RokWp3Iesc",hanami:"ChIJLV9bUgAJAWAR-LSV4IrzArY",shirakawa:"ChIJh8ezaNwJAWARmKlGTSmqPJc",pontocho:"ChIJP2DblBgJAWARAgLlF0vWT6o",okazaki:"ChIJQ2lby-UIAWAR5ddTTQPiwXc",heian:"ChIJjch8GOUIAWART0WX2JLZvnU",gyoen:"ChIJHV-OFHsIAWARVQlhBBl6ix8",palace:"ChIJBemVXAAJAWARhkbj_PO6IHw",honenin:"ChIJfXhv2hoJAWARAyBdLecA72I",montbell:"ChIJnU6VapQIAWARNFShjitjjKg",yodobashi:"ChIJNfpddK8IAWAR21KSO4M57nY",uniqloYodo:"ChIJW9oHW68IAWARShF_gft5hwk",inari:"ChIJIW0uPRUPAWAR6eI6dRzKGns",momak:"ChIJ187BbeYIAWARFtc1KdlA0UE",crafts:"ChIJERU18uUIAWARYWoWdRc7hJs",vivo:"ChIJ8ZGUqBgJAWAREwN4_R9o488"};
+const KID={kiyomizu:"ChIJB_vchdMIAWARujTEUIZlr2I",sannenzaka:"ChIJr_gZonkIAWARB1xyACZNUKM",kodaiji:"ChIJuU17z9oIAWARgMhsX3kqUSQ",nene:"ChIJu7AHKsUIAWARU2jHH_p7vas",yasaka:"ChIJqewQoHkIAWAR6RokWp3Iesc",hanami:"ChIJLV9bUgAJAWAR-LSV4IrzArY",shirakawa:"ChIJh8ezaNwJAWARmKlGTSmqPJc",pontocho:"ChIJP2DblBgJAWARAgLlF0vWT6o",okazaki:"ChIJQ2lby-UIAWAR5ddTTQPiwXc",heian:"ChIJjch8GOUIAWART0WX2JLZvnU",gyoen:"ChIJHV-OFHsIAWARVQlhBBl6ix8",palace:"ChIJBemVXAAJAWARhkbj_PO6IHw",honenin:"ChIJfXhv2hoJAWARAyBdLecA72I",montbell:"ChIJnU6VapQIAWARNFShjitjjKg",yodobashi:"ChIJNfpddK8IAWAR21KSO4M57nY",uniqloYodo:"ChIJW9oHW68IAWARShF_gft5hwk",inari:"ChIJIW0uPRUPAWAR6eI6dRzKGns",momak:"ChIJ187BbeYIAWARFtc1KdlA0UE",crafts:"ChIJERU18uUIAWARYWoWdRc7hJs",vivo:"ChIJ8ZGUqBgJAWAREwN4_R9o488",chabad:"ChIJ9QszIeIIAWARjYTPX-g0uSc"};
 const TETSU=S("Philosopher's Path (Tetsugaku-no-michi) Kyoto");
 
 /* fx: [time, what, note, reminder, linkKey]  pl: [name, blurb, mapQuery, isSuggestion] */
@@ -115,7 +117,8 @@ const DAYS = [
    ["הנאמיקוג'י","רחוב בתי התה, דרומית לשיג'ו",PM("Hanamikoji Street",KID.hanami),0,KP.hanami],
    ["תעלת שירקאווה","ערבות ובתי עץ — החלק השקט של גיון",PM("Shirakawa Canal",KID.shirakawa),0,KP.shirakawa],
    ["פונטוצ'ו","מעבר לגשר שיג'ו, ומשם ברגל הביתה",PM("Pontocho alley",KID.pontocho),0,KP.pontocho],
-   ["סופרמרקט ליד הדירה","קניות לשבת",S("supermarket near Kitamonzen-cho Sakyo Kyoto")]]},
+   ["סופרמרקט ליד הדירה","קניות לשבת",S("supermarket near Kitamonzen-cho Sakyo Kyoto")],
+   ["בית חב\"ד קיוטו","לקראת כניסת שבת, ברגל או במונית: תפילה וארוחת ליל שבת. חזרה הביתה ברגל. להירשם מראש",PM("Chabad Jewish center Kyoto",KID.chabad),0,KP.chabad]]},
  {d:"10-31",dow:"שבת",r:"kyoto",sleep:"kyoto",title:"שבת באוקזאקי ובגן הקיסרי",sh:["out","~17:45","זמן משוער. אחרי השבת — קניות."],
   fx:[],pl:[
    ["פארק אוקזאקי","דקות הליכה מהדירה",PM("Okazaki Park",KID.okazaki),0,KP.okazaki],

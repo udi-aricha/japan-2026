@@ -89,7 +89,7 @@ function moreView(){
    <h2 style="margin-top:6px">אוכל כשר</h2>
    <div class="place"><span class="pin">${PIN}</span><div class="body"><h3>חב"ד טוקיו — טקנאווה</h3><p>5 דק' מסנגקוג'י · קו אסקוסה ישירות מהדירה</p></div><a class="go" href="${G("1-5-23 Takanawa, Minato-ku, Tokyo")}" target="_blank" rel="noopener">לשם</a></div>
    <div class="place"><span class="pin">${PIN}</span><div class="body"><h3>David's Deli</h3><p>מסעדה כשרה צמודה לחב"ד</p></div><a class="go" href="${S("David's Deli Takanawa Tokyo")}" target="_blank" rel="noopener">לשם</a></div>
-   <div class="free small">חב"ד קיוטו — פעילות תיבדק לפני הטיסה.</div></div>`;
+   <div class="place"><span class="pin">${PIN}</span><div class="body"><h3>חב"ד קיוטו</h3><p>אוקזאקי, כרבע שעה ברגל מהדירה · ארוחות שבת בהרשמה · וואטסאפ +81 90-3684-7707</p></div><a class="go" href="${PM("Chabad Jewish center Kyoto",KID.chabad)}" target="_blank" rel="noopener">לשם</a></div></div>`;
 }
 
 function render(){
