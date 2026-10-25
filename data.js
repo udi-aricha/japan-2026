@@ -28,20 +28,20 @@ const PG=k=>`https://www.google.com/maps/search/?api=1&query=${GEO[k][0]},${GEO[
 const NAV=k=>GEO[k]?`https://www.google.com/maps/dir/?api=1&destination=${GEO[k][0]},${GEO[k][1]}&destination_place_id=${GEO[k][2]}`:null;
 const BK="https://secure.booking.com/myreservations.html";
 const EXTRA={
-  kyoto:{links:[["הדירה בגוגל מפות — תמונות וביקורות",PG("kyoto")],["ההזמנה ב-Booking",BK],["רישום אורחים (minpakuin)","https://connect.minpakuin.jp/register/AAABs7zzjjTgJ4jHWzIWVvF4jJlhVVAfa3o?page=Terminal"]],
+  kyoto:{links:[["ההזמנה ב-Booking",BK],["רישום אורחים (minpakuin)","https://connect.minpakuin.jp/register/AAABs7zzjjTgJ4jHWzIWVvF4jJlhVVAfa3o?page=Terminal"]],
     ci:["לפני ההגעה: למלא רישום אורחים בקישור minpakuin — פרטי דרכון לשניכם.","צ'ק-אין 16:00–22:00. הדלת נפתחת בקוד. הקוד הסודי של ההזמנה (PIN) במייל של Booking.","תשלום במקום: 137,642 ין, מזומן בלבד.","שעות שקט 21:00–08:00. אין חניה."]},
-  takayama:{links:[["הדירה בגוגל מפות — תמונות וביקורות",PG("takayama")],["ההזמנה ב-Booking",BK]],
+  takayama:{links:[["ההזמנה ב-Booking",BK]],
     ci:["צ'ק-אין דיגיטלי 15:00–23:00.","להציג את מספר הצ'ק-אין M261011700240 עם תעודה מזהה.","חניה חינם במקום."]},
   kiso:{links:[["דף הדירה ב-Airbnb","https://he.airbnb.com/rooms/1626760379560685769"],["ההזמנה ב-Airbnb","https://he.airbnb.com/reservation/itinerary?code=HMZ4Q4JH2T"]],
     ci:["כניסה עצמית מ-15:00 עם קופסת מפתח. הכתובת וקוד הקופסה — באפליקציית Airbnb.","ההורים של Miwa מקבלים את האורחים בקיסו.","חניה חינם, 4 מקומות. כיריים גז — לאוורר בבישול."]},
-  fuji:{links:[["הבית בגוגל מפות",PG("fuji")],["תמונות ופרטים (אותו בית ב-Airbnb)","https://he.airbnb.com/rooms/1483148798878318978"],["ההזמנה ב-Booking",BK]],
+  fuji:{links:[["תמונות ופרטים (אותו בית ב-Airbnb)","https://he.airbnb.com/rooms/1483148798878318978"],["ההזמנה ב-Booking",BK]],
     ci:["להודיע מראש על שעת ההגעה. הנחיות הכניסה נשלחות במייל.","צ'ק-אין 16:00–22:00. חניה מקורה.","שעות שקט 21:00–08:00 — יש שכנים."]},
   hakone:{links:[["דף הבית ב-Airbnb","https://he.airbnb.com/rooms/2794750"],["ההזמנה ב-Airbnb","https://he.airbnb.com/trips/v1/reservation-details/ro/RESERVATION2_CHECKIN/HMK3BFZYWP"]],
     ci:["כניסה עצמית אחרי 15:00 עם תיבה נעולה. הקוד — באפליקציית Airbnb.","חניה פרטית ל-2 רכבים.","אין מכולת במרחק הליכה — להגיע עם קניות.","ביציאה 16/11: לצאת בסביבות 09:00, החזרת הרכב ב-10:00."]},
-  tokyo:{links:[["הדירה בגוגל מפות — תמונות וביקורות",PG("tokyo")],["ההזמנה ב-Booking",BK]],
+  tokyo:{links:[["ההזמנה ב-Booking",BK]],
     ci:["למלא טופס צ'ק-אין מוקדם עם צילומי דרכון — בתמורה מקבלים את הקודים.","המפתחות במקום מוסתר בנכס, לפי ההנחיות שיישלחו.","צ'ק-אין מ-15:00 — להודיע מראש על שעת ההגעה.","תחנת Honjo-Azumabashi, קו אסקוסה — פחות מ-5 דקות."]}
 };
-Object.keys(EXTRA).forEach(k=>Object.assign(STAYS[k],EXTRA[k],{nav:NAV(k)}));
+Object.keys(EXTRA).forEach(k=>Object.assign(STAYS[k],EXTRA[k],{nav:NAV(k),map:GEO[k]?PG(k):null}));
 /* Kiso: address not sent yet by Airbnb — navigation via the Airbnb itinerary */
 STAYS.kiso.nav="https://he.airbnb.com/reservation/itinerary?code=HMZ4Q4JH2T";STAYS.kiso.navLabel="כתובת וניווט ב-Airbnb";
 const CHECKIN_DAY={"10-29":"kyoto","11-02":"takayama","11-05":"kiso","11-08":"fuji","11-12":"hakone","11-16":"tokyo"};
