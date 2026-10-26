@@ -29,7 +29,7 @@ const NAV=k=>GEO[k]?`https://www.google.com/maps/dir/?api=1&destination=${GEO[k]
 const BK="https://secure.booking.com/myreservations.html";
 const EXTRA={
   kyoto:{links:[["ההזמנה ב-Booking",BK],["רישום אורחים (minpakuin)","https://connect.minpakuin.jp/register/AAABs7zzjjTgJ4jHWzIWVvF4jJlhVVAfa3o?page=Terminal"]],
-    ci:["קוד הזמנה לטאבלט שבכניסה: 049973","קוד לדלת חדר 201: 9370* (כולל הכוכבית)"]},
+    ci:["קוד הזמנה לטאבלט שבכניסה: 049973","קוד לדלת חדר 201: 9370* (כולל הכוכבית)","Wi-Fi — רשת: 112406165816 · סיסמה: 37567443"]},
   takayama:{links:[["ההזמנה ב-Booking",BK]],
     ci:["צ'ק-אין דיגיטלי 15:00–23:00.","להציג את מספר הצ'ק-אין M261011700240 עם תעודה מזהה.","חניה חינם במקום."]},
   kiso:{links:[["דף הדירה ב-Airbnb","https://he.airbnb.com/rooms/1626760379560685769"],["ההזמנה ב-Airbnb","https://he.airbnb.com/reservation/itinerary?code=HMZ4Q4JH2T"]],
