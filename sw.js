@@ -1,6 +1,6 @@
 /* Offline support: app files cached on install; data.js fetched fresh when online, cached copy when offline. */
-const VERSION = "v9-2026-10-25";
-const CORE = ["./", "index.html", "app.js", "data.js", "manifest.webmanifest", "icon-192.png", "icon-512.png"];
+const VERSION = "v10-2026-10-27";
+const CORE = ["./", "index.html", "app.js", "data.js", "manifest.webmanifest", "icon-192.png", "icon-512.png", "bp/bp-udi-ey608.png", "bp/bp-udi-ey800.png"];
 self.addEventListener("install", e => {
   e.waitUntil(caches.open(VERSION).then(c => c.addAll(CORE.map(u => new Request(u, { cache: "reload" })))).then(() => self.skipWaiting()));
 });
