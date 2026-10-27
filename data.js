@@ -46,7 +46,7 @@ Object.keys(EXTRA).forEach(k=>Object.assign(STAYS[k],EXTRA[k],{nav:NAV(k),map:GE
 STAYS.kiso.nav="https://he.airbnb.com/reservation/itinerary?code=HMZ4Q4JH2T";STAYS.kiso.navLabel="כתובת וניווט ב-Airbnb";
 const CHECKIN_DAY={"10-29":"kyoto","11-02":"takayama","11-05":"kiso","11-08":"fuji","11-12":"hakone","11-16":"tokyo"};
 const LINKS={
-  etihad:["ניהול הזמנה ב-Etihad","https://www.etihad.com/en/manage"],
+  etihad:["ניהול ההזמנה 88ZR7T ב-Etihad","https://digital.etihad.com/selfservice/en/ssg-landing-page?pnr=88ZR7T&lastName=ARICHA"],
   toyota:["ההזמנה בטויוטה","https://rent.toyota.co.jp/eng/"],
   toyotaInfo:["מידע לפני השכרה","https://rent.toyota.co.jp/global_eng/guide/importantitems.html"],
   passport:["PassportCard","https://www.passportcard.co.il/contact"]

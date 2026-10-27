@@ -47,7 +47,7 @@ function drawDayMap(){const el=document.getElementById("daymap");if(!el)return;c
 function dayView(k){
   const i=DAYS.findIndex(x=>x.d===k), x=DAYS[i], R=REG[x.r];
   const sh=x.sh?`<div class="shabbat">${FLAME}<div><div class="lbl">${x.sh[0]==="in"?"כניסת שבת":"צאת שבת"} · ${esc(R.he)}</div><div class="tm mono">${esc(x.sh[1])}</div><div class="n">${esc(x.sh[2])}</div></div></div>`:"";
-  const fx=x.fx.length?`<section class="stack" style="gap:8px"><h2>בשעה קבועה</h2><div class="fixed">${x.fx.map(f=>`<div class="fx"><span class="t">${esc(f[0])}</span><div class="w"><div>${esc(f[1])}</div>${f[2]?`<div class="n">${esc(f[2])}</div>`:""}${f[3]?`<span class="remind">${esc(f[3])}</span>`:""}${f[4]?`<div style="margin-top:6px">${lnk(LINKS[f[4]],"sm")}</div>`:""}</div></div>`).join("")}</div></section>`:"";
+  const fx=x.fx.length?`<section class="stack" style="gap:8px"><h2>בשעה קבועה</h2><div class="fixed">${x.fx.map(f=>`<div class="fx"><span class="t">${esc(f[0])}</span><div class="w"><div>${esc(f[1])}</div>${f[2]?`<div class="n">${esc(f[2])}</div>`:""}${f[3]?`<span class="remind">${esc(f[3])}</span>`:""}${f[4]?`<div style="margin-top:6px">${lnk(LINKS[f[4]],"sm")}</div>`:""}${bpFold(f[1])}</div></div>`).join("")}</div></section>`:"";
   const gd=x.guide?`<details class="fold pinfo"><summary>${esc(x.guide.title)}</summary><div class="stack" style="gap:4px;margin-top:6px">${x.guide.steps.map(g=>{const [a,...b]=g[2].split("\n");return `<details class="fold"><summary>${esc(g[0])} · ${esc(g[1])}</summary><p class="small" style="margin:6px 0 0;padding-inline:12px">${esc(a)}</p>${b.map(e=>`<p class="small muted" dir="ltr" style="text-align:left;margin:4px 0 0;padding:0 12px 8px">${esc(e)}</p>`).join("")}</details>`}).join("")}</div>${x.guide.note?`<p class="small muted" style="margin:6px 0 0">${esc(x.guide.note)}</p>`:""}</details>`:"";
   const tl=TASKS[k]||[];
   const tk=tl.length?`<details class="fold tasks"><summary>משימות <span class="count">${tl.length}</span></summary><div class="tlist">${tl.map(t=>`<a class="trow" href="${TD(t[2])}" target="_blank" rel="noopener"><span class="box p${t[1]}"></span><span>${esc(t[0])}</span></a>`).join("")}</div><p class="small muted" style="margin:6px 0 0">מסמנים ביצוע ב-Todoist.</p></details>`:"";
@@ -74,6 +74,13 @@ function daysView(){
 }
 function stayView(){
   return `<h1 style="font-size:28px">לינה</h1><p class="muted small" style="margin:4px 0 12px">כתובת ביפנית להצגה לנהג מונית או להזנה בניווט ברכב.</p><div class="stack">${Object.keys(STAYS).map(k=>`<div class="card rg-${k}"><span class="k" lang="ja">${REG[k].k}</span><div class="small muted">${REG[k].he} · ${esc(STAYS[k].area)}</div><h3 style="font-size:19px">${esc(STAYS[k].name)}</h3>${stayBlock(k,true,false)}</div>`).join("")}</div>`;
+}
+function bpFold(label){
+  if(typeof BOARDING==="undefined")return "";
+  const L=BOARDING.legs.find(l=>String(label).startsWith(l.f));if(!L)return "";
+  const have=L.pax.filter(P=>P[2]);
+  const body=have.length?have.map(P=>`<div class="small" style="margin-top:8px"><b>${P[0]}</b> · מושב <span class="mono">${P[1]}</span></div><a href="${P[2]}" target="_blank" rel="noopener"><img src="${P[2]}" alt="כרטיס עלייה ${P[0]} ${L.f}" style="width:100%;margin-top:4px;border-radius:8px;background:#fff"></a>${BOARDING.wallet[P[0]]?`<div class="btns" style="margin-top:4px"><a class="btn sm" href="${BOARDING.wallet[P[0]]}" target="_blank" rel="noopener">${P[0]} — הכרטיס באתר Etihad</a></div>`:""}`).join(""):`<p class="small muted" style="margin:8px 0 0">${esc(L.note||"כרטיסי עלייה עוד לא התקבלו — אחרי הצ'ק-אין.")}</p>`;
+  return `<details class="fold"><summary>כרטיסי עלייה${have.length?` · עלייה ${L.board}, קבוצה ${L.group}`:""}</summary>${body}</details>`;
 }
 function tixView(){
   const B=BOARDING;
