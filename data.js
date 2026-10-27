@@ -193,12 +193,12 @@ const DAYS = [
 
 // כרטיסי עלייה — צ'ק-אין אונליין 27/10 (מייל Etihad "You're checked in")
 const BOARDING={ref:"88ZR7T",checked:"27/10",
- wallet:{"אודי":"https://digital.etihad.com/onlinecheckin/journey/boarding-pass-page?j=E0DD1D1B8005A9B5434A119A88100C888CDA5D8E1793256180&t=310AD6CA002A23E1&lang=en"},
+ wallet:{"אודי":"https://digital.etihad.com/onlinecheckin/journey/boarding-pass-page?j=E0DD1D1B8005A9B5434A119A88100C888CDA5D8E1793256180&t=310AD6CA002A23E1&lang=en","מירי":"https://digital.etihad.com/onlinecheckin/journey/boarding-pass-page?j=E0DD1D1B8005A9B5434A119A88100C888CDA5D8E1793256180&t=310AD6CA002A23E2&lang=en"},
  legs:[
   {f:"EY 608",route:"תל אביב ← אבו דאבי",date:"רביעי 28/10",dep:"14:25",arr:"19:25",from:"נתב\"ג טרמינל 3",to:"אבו דאבי טרמינל A",board:"13:35",group:"5",
-   pax:[["אודי","7B","bp/bp-udi-ey608.png"],["מירי","7C",null]]},
+   pax:[["אודי","7B","bp/bp-udi-ey608.png"],["מירי","7C","bp/bp-miri-ey608.png"]]},
   {f:"EY 800",route:"אבו דאבי ← נריטה",date:"רביעי 28/10",dep:"22:20",arr:"13:15 (חמישי 29/10)",from:"אבו דאבי טרמינל A",to:"נריטה טרמינל 1",board:"21:15",group:"5",
-   pax:[["אודי","64A","bp/bp-udi-ey800.png"],["מירי","64B",null]]},
+   pax:[["אודי","64A","bp/bp-udi-ey800.png"],["מירי","64B","bp/bp-miri-ey800.png"]]},
   {f:"EY 801",route:"נריטה ← אבו דאבי",date:"חמישי 19/11",dep:"17:20",arr:"00:40 (20/11)",from:"נריטה טרמינל 1",to:"אבו דאבי טרמינל A",board:"",group:"",
    pax:[["אודי","40H",null],["מירי","40J",null]],note:"צ'ק-אין לחזור נפתח 30 שעות לפני — בערך 18/11 ב-11:20 שעון יפן."},
   {f:"EY 595",route:"אבו דאבי ← תל אביב",date:"שישי 20/11",dep:"03:25",arr:"05:05",from:"אבו דאבי טרמינל A",to:"נתב\"ג טרמינל 3",board:"",group:"",
