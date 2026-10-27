@@ -54,7 +54,7 @@ const LINKS={
 /* tasks synced from Todoist project "יפן" at last update: [title, priority, id] */
 const TASKS={
  "10-28":[["איסוף PassportCard",4,"6hpJV5JwXj5MPPC4"],["מזומן ביינים — 30,000–40,000 ין מהארץ",2,"6hmP8Qr8Vq85gJc4"],["לבדוק שחיוב Airbnb הקונה עבר — 1,434.26 ₪",3,"6hmP8F5G3QW6HJV4"]],
- "10-29":[["לבקש חותמת כניסה בדרכונים בנריטה",1,"6hmP8QchFMHwwqHW"]],
+ "10-29":[["לבקש חותמת כניסה בדרכונים בנריטה",1,"6hmP8QchFMHwwqHW"],["להפיק קוד QR לפטור ממס (Visit Japan Web) — אודי ומירי",2,"6hr7mPpp6p5Rmrp4"]],
  "11-02":[["איסוף רכב 09:00 — מסמכים ונהגת נוספת",1,"6hmP8Qcvg5XCqxWW"]],
  "11-10":[["טוקיו: מועד אחרון לביטול חינם",2,"6hmP8F4F3X3X9v94"]],
  "11-16":[["דלק מלא וקבלה לפני החזרת הרכב",1,"6hmP8Qhm6Hv8JRvW"]]

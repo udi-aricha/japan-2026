@@ -92,15 +92,21 @@ function bpFold(label){
 }
 function tixView(){
   const B=BOARDING;
-  return `<h1 style="font-size:28px">כרטיסים</h1><p class="muted small" style="margin:4px 0 12px">הזמנה <span class="mono">${B.ref}</span> · צ'ק-אין להלוך בוצע ${B.checked}. לחיצה על כרטיס פותחת אותו בגודל מלא — להציג בשער.</p><div class="stack rg-air">
-   ${B.legs.map(L=>`<div class="card"><div style="display:flex;justify-content:space-between;align-items:baseline"><h3 class="mono" style="font-size:20px">${L.f}</h3><span class="small muted">${L.date}</span></div><div>${L.route}</div><div class="small muted"><span class="mono">${L.dep}</span> ${esc(L.from)} → <span class="mono">${L.arr}</span> ${esc(L.to)}</div>${L.board?`<div class="small" style="margin-top:4px">עלייה למטוס <b class="mono">${L.board}</b> · קבוצה ${L.group}</div>`:""}
+  const grp=(title,sub,body,cls="")=>`<details class="fold grp ${cls}"><summary><div><div class="gt">${title}</div>${sub?`<div class="small muted">${sub}</div>`:""}</div></summary>${body}</details>`;
+  const leg=L=>`<div class="leg"><div style="display:flex;justify-content:space-between;align-items:baseline"><h3 class="mono" style="font-size:20px">${L.f}</h3><span class="small muted">${L.date}</span></div><div>${L.route}</div><div class="small muted"><span class="mono">${L.dep}</span> ${esc(L.from)} → <span class="mono">${L.arr}</span> ${esc(L.to)}</div>${L.board?`<div class="small" style="margin-top:4px">עלייה למטוס <b class="mono">${L.board}</b> · קבוצה ${L.group}</div>`:""}
     ${L.pax.map(P=>`<div class="ticket"><div class="small"><b>${P[0]}</b> · מושב <span class="mono">${P[1]}</span></div>${P[2]?`<a href="${P[2]}" target="_blank" rel="noopener"><img src="${P[2]}" alt="כרטיס עלייה ${P[0]} ${L.f}" style="width:100%;margin-top:8px;border-radius:8px;background:#fff"></a>`:`<div class="small muted" style="margin-top:6px">${L.note&&P[0]==="אודי"?esc(L.note):"כרטיס עלייה — עוד לא התקבל"}</div>`}</div>`).join("")}
-    <div class="btns">${L.pax.filter(P=>P[2]&&B.wallet[P[0]]).map(P=>`<a class="btn" href="${B.wallet[P[0]]}" target="_blank" rel="noopener">${P[0]} — באתר Etihad</a>`).join("")}${lnk(LINKS.etihad)}</div></div>`).join("")}
-   ${typeof VJW!=="undefined"?`<div class="card"><h3>כניסה ליפן — Visit Japan Web</h3><p class="small muted" style="margin:4px 0 0">ביקורת גבולות ומכס בנריטה · נרשם ${VJW.checked}. ${esc(VJW.note)} לחיצה על קוד פותחת אותו בגודל מלא.</p>${vjwImgs()}</div>`:""}
-   <div class="card"><h3>רכב — טויוטה</h3><dl class="kv"><dt>הזמנה</dt><dd class="mono">99937466600</dd><dt>איסוף</dt><dd>2/11 · 09:00 · Sanjo Keihan-Kita, קיוטו · <span class="mono">075-762-0115</span></dd><dt>החזרה</dt><dd>16/11 · 10:00 · אודווארה, יציאה מערבית</dd><dt>מרכז הזמנות</dt><dd class="mono">+81-92-577-0091</dd></dl>
+    <div class="btns">${L.pax.filter(P=>P[2]&&B.wallet[P[0]]).map(P=>`<a class="btn" href="${B.wallet[P[0]]}" target="_blank" rel="noopener">${P[0]} — באתר Etihad</a>`).join("")}</div></div>`;
+  const out=B.legs.slice(0,2), back=B.legs.slice(2);
+  const vj=typeof VJW!=="undefined"?grp("כניסה ליפן — Visit Japan Web",`ביקורת גבולות ומכס · נרשם ${VJW.checked}`,`<p class="small muted" style="margin:4px 0 0">${esc(VJW.note)} לחיצה על קוד פותחת אותו בגודל מלא.</p>${vjwImgs()}`):"";
+  return `<h1 style="font-size:28px">כרטיסים</h1><p class="muted small" style="margin:4px 0 12px">הזמנה <span class="mono">${B.ref}</span> · צ'ק-אין להלוך בוצע ${B.checked}. לחיצה על קבוצה פותחת אותה; לחיצה על כרטיס פותחת אותו בגודל מלא.</p><div class="stack" style="gap:0">
+   ${grp("טיסות הלוך",`${out.map(L=>L.f).join(" · ")} · ${out[0].date}`,out.map(leg).join("")+`<div class="btns" style="margin-bottom:4px">${lnk(LINKS.etihad)}</div>`,"rg-air")}
+   ${vj}
+   ${grp("רכב — טויוטה","איסוף 2/11 קיוטו · החזרה 16/11 אודווארה",`<dl class="kv"><dt>הזמנה</dt><dd class="mono">99937466600</dd><dt>איסוף</dt><dd>2/11 · 09:00 · Sanjo Keihan-Kita, קיוטו · <span class="mono">075-762-0115</span></dd><dt>החזרה</dt><dd>16/11 · 10:00 · אודווארה, יציאה מערבית</dd><dt>מרכז הזמנות</dt><dd class="mono">+81-92-577-0091</dd></dl>
     <details class="fold"><summary>לזכור באיסוף</summary><ul class="ci"><li>רישיון בינלאומי + ישראלי + דרכון — לשניכם.</li><li>חותמת כניסה בדרכון.</li><li>לרשום את מירי כנהגת נוספת.</li><li>להחזיר עם מיכל מלא ולשמור קבלה.</li></ul></details>
-    <div class="btns"><a class="btn solid" href="${G("Toyota Rent a Car Sanjo Keihan-Kita Kyoto")}" target="_blank" rel="noopener">ניווט לאיסוף</a>${lnk(LINKS.toyota)}${lnk(LINKS.toyotaInfo)}</div></div>
-   <div class="card"><h3>המסמכים המלאים</h3><p class="small muted" style="margin:4px 0 0">אישורים, דרכונים ופוליסה — בתיקיית Dropbox המשותפת, זמינה בלי קליטה.</p></div></div>`;
+    <div class="btns"><a class="btn solid" href="${G("Toyota Rent a Car Sanjo Keihan-Kita Kyoto")}" target="_blank" rel="noopener">ניווט לאיסוף</a>${lnk(LINKS.toyota)}${lnk(LINKS.toyotaInfo)}</div>`)}
+   ${grp("טיסות חזור",`${back.map(L=>L.f).join(" · ")} · ${back[0].date}`,back.map(leg).join("")+`<div class="btns" style="margin-bottom:4px">${lnk(LINKS.etihad)}</div>`,"rg-air")}
+   ${grp("המסמכים המלאים","אישורים, דרכונים ופוליסה",`<p class="small muted" style="margin:4px 0 0">בתיקיית Dropbox המשותפת, זמינה בלי קליטה.</p>`)}
+  </div>`;
 }
 function moreView(){
   return `<h1 style="font-size:28px">עזרה</h1><div class="stack rg-tokyo" style="margin-top:12px">
