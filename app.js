@@ -47,7 +47,7 @@ function drawDayMap(){const el=document.getElementById("daymap");if(!el)return;c
 function dayView(k){
   const i=DAYS.findIndex(x=>x.d===k), x=DAYS[i], R=REG[x.r];
   const sh=x.sh?`<div class="shabbat">${FLAME}<div><div class="lbl">${x.sh[0]==="in"?"כניסת שבת":"צאת שבת"} · ${esc(R.he)}</div><div class="tm mono">${esc(x.sh[1])}</div><div class="n">${esc(x.sh[2])}</div></div></div>`:"";
-  const fx=x.fx.length?`<section class="stack" style="gap:8px"><h2>בשעה קבועה</h2><div class="fixed">${x.fx.map(f=>`<div class="fx"><span class="t">${esc(f[0])}</span><div class="w"><div>${esc(f[1])}</div>${f[2]?`<div class="n">${esc(f[2])}</div>`:""}${f[3]?`<span class="remind">${esc(f[3])}</span>`:""}${f[4]?`<div style="margin-top:6px">${lnk(LINKS[f[4]],"sm")}</div>`:""}${bpFold(f[1])}${f[5]==="vjw"?vjwFold():""}</div></div>`).join("")}</div></section>`:"";
+  const fx=x.fx.length?`<section class="stack" style="gap:8px"><h2>בשעה קבועה</h2><div class="fixed">${x.fx.map(f=>`<div class="fx"><span class="t">${esc(f[0])}</span><div class="w"><div>${esc(f[1])}</div>${f[2]?`<div class="n">${esc(f[2])}</div>`:""}${f[3]?`<span class="remind">${esc(f[3])}</span>`:""}${f[4]?`<div style="margin-top:6px">${lnk(LINKS[f[4]],"sm")}</div>`:""}${bpFold(f[1])}${f[5]==="vjw"?vjwFold():""}${f[5]==="suica"?suicaFold():""}</div></div>`).join("")}</div></section>`:"";
   const gd=x.guide?`<details class="fold pinfo"><summary>${esc(x.guide.title)}</summary><div class="stack" style="gap:4px;margin-top:6px">${x.guide.steps.map(g=>{const [a,...b]=g[2].split("\n");return `<details class="fold"><summary>${esc(g[0])} · ${esc(g[1])}</summary><p class="small" style="margin:6px 0 0;padding-inline:12px">${esc(a)}</p>${b.map(e=>`<p class="small muted" dir="ltr" style="text-align:left;margin:4px 0 0;padding:0 12px 8px">${esc(e)}</p>`).join("")}${g[3]==="vjw"?vjwFold():""}</details>`}).join("")}</div>${x.guide.note?`<p class="small muted" style="margin:6px 0 0">${esc(x.guide.note)}</p>`:""}</details>`:"";
   const tl=TASKS[k]||[];
   const tk=tl.length?`<details class="fold tasks"><summary>משימות <span class="count">${tl.length}</span></summary><div class="tlist">${tl.map(t=>`<a class="trow" href="${TD(t[2])}" target="_blank" rel="noopener"><span class="box p${t[1]}"></span><span>${esc(t[0])}</span></a>`).join("")}</div><p class="small muted" style="margin:6px 0 0">מסמנים ביצוע ב-Todoist.</p></details>`:"";
@@ -79,6 +79,14 @@ function vjwImgs(){
   if(typeof VJW==="undefined")return "";
   return VJW.pax.map(P=>`<div class="ticket"><div class="small"><b>${P[0]}</b></div><a href="${P[1]}" target="_blank" rel="noopener"><img src="${P[1]}" alt="קוד כניסה ליפן ${P[0]}" style="width:100%;max-width:340px;margin-top:8px;border-radius:8px;background:#fff"></a></div>`).join("");
 }
+function suicaBody(){
+  if(typeof SUICA==="undefined")return "";
+  return `<dl class="kv">${SUICA.items.map(i=>`<dt>${esc(i[0])}</dt><dd>${esc(i[1])}</dd>`).join("")}</dl><p class="small muted" dir="ltr" style="text-align:left;margin:6px 0 0">${esc(SUICA.en)}</p>`;
+}
+function suicaFold(){
+  if(typeof SUICA==="undefined")return "";
+  return `<details class="fold"><summary>כרטיס תחבורה — הסבר</summary>${suicaBody()}</details>`;
+}
 function vjwFold(){
   if(typeof VJW==="undefined")return "";
   return `<details class="fold"><summary>קוד QR לכניסה ליפן</summary>${vjwImgs()}<p class="small muted" style="margin:8px 0 0">${esc(VJW.note)}</p></details>`;
@@ -101,6 +109,7 @@ function tixView(){
   return `<h1 style="font-size:28px">כרטיסים</h1><p class="muted small" style="margin:4px 0 12px">הזמנה <span class="mono">${B.ref}</span> · צ'ק-אין להלוך בוצע ${B.checked}. לחיצה על קבוצה פותחת אותה; לחיצה על כרטיס פותחת אותו בגודל מלא.</p><div class="stack" style="gap:0">
    ${grp("טיסות הלוך",`${out.map(L=>L.f).join(" · ")} · ${out[0].date}`,out.map(leg).join("")+`<div class="btns" style="margin-bottom:4px">${lnk(LINKS.etihad)}</div>`,"rg-air")}
    ${vj}
+   ${typeof SUICA!=="undefined"?grp("כרטיס תחבורה — Welcome Suica","קונים בנריטה 29/10 · כרטיס לכל אחד",suicaBody()):""}
    ${grp("רכב — טויוטה","איסוף 2/11 קיוטו · החזרה 16/11 אודווארה",`<dl class="kv"><dt>הזמנה</dt><dd class="mono">99937466600</dd><dt>איסוף</dt><dd>2/11 · 09:00 · Sanjo Keihan-Kita, קיוטו · <span class="mono">075-762-0115</span></dd><dt>החזרה</dt><dd>16/11 · 10:00 · אודווארה, יציאה מערבית</dd><dt>מרכז הזמנות</dt><dd class="mono">+81-92-577-0091</dd></dl>
     <details class="fold"><summary>לזכור באיסוף</summary><ul class="ci"><li>רישיון בינלאומי + ישראלי + דרכון — לשניכם.</li><li>חותמת כניסה בדרכון.</li><li>לרשום את מירי כנהגת נוספת.</li><li>להחזיר עם מיכל מלא ולשמור קבלה.</li></ul></details>
     <div class="btns"><a class="btn solid" href="${G("Toyota Rent a Car Sanjo Keihan-Kita Kyoto")}" target="_blank" rel="noopener">ניווט לאיסוף</a>${lnk(LINKS.toyota)}${lnk(LINKS.toyotaInfo)}</div>`)}
