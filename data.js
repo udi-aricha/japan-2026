@@ -10,7 +10,7 @@ const REG = {
 const STAYS = {
   kyoto:{name:"a-un", area:"סאקיו", jp:"京都市左京区北門前町507", en:"507 Kitamonzen-cho, Sakyo-ku, Kyoto", tel:"+81 50-5530-5759", ref:"Booking 5090426031", in:"חמישי 29/10, 16:00–22:00", out:"שני 2/11, עד 10:00", entry:"טאבלט בכניסה + קוד לדלת, חדר 201", pay:"שולם בכרטיס דרך Booking (23/10). במקום: מס לינה ~3,200 ין"},
   takayama:{name:"Stay Maison Hida Takayama", area:"האנאוקה", jp:"岐阜県高山市花岡町3丁目74-2", en:"3-74-2 Hanaoka-machi, Takayama", tel:"+81 80-4775-8462", ref:"Booking · צ'ק-אין M261011700240", in:"שני 2/11, 15:00–23:00", out:"חמישי 5/11, עד 10:00", entry:"צ'ק-אין דיגיטלי", pay:"שולם"},
-  kiso:{name:"Shukutaku Kotori", area:"אוקווה", jp:"(הכתובת תגיע מ-Airbnb)", en:"Okuwa, Kiso, Nagano", tel:"+81 80-5457-8226 (Miwa)", ref:"Airbnb HMZ4Q4JH2T", in:"חמישי 5/11, מ-15:00", out:"ראשון 8/11, עד 10:00", entry:"קופסת מפתח", pay:"חיוב 23/10"},
+  kiso:{name:"Shukutaku Kotori", area:"אוקווה", jp:"長野県木曽郡大桑村野尻2589", en:"2589 Nojiri, Okuwa, Kiso District, Nagano 399-5504", tel:"+81 80-5457-8226 (Miwa)", ref:"Airbnb HMZ4Q4JH2T", in:"חמישי 5/11, מ-15:00", out:"ראשון 8/11, עד 10:00", entry:"קופסת מפתח", pay:"שולם (23/10)"},
   fuji:{name:"TOCORO Mt Fuji Shizuku", area:"אוישי, קוואגוצ'יקו", jp:"山梨県南都留郡富士河口湖町大石58-3", en:"58-3 Oishi, Fujikawaguchiko", tel:"+81 555-72-9031", ref:"Booking 5275305990", in:"ראשון 8/11, 16:00–22:00", out:"חמישי 12/11, עד 10:00", entry:"הנחיות במייל", pay:"שולם"},
   hakone:{name:"Hot-Spring House in Hakone", area:"קוואקודאני", jp:"神奈川県足柄下郡箱根町小涌谷443-165", en:"Kowakudani 443-165, Hakone", tel:"+81 90-5580-8410 (Gabriel)", ref:"Airbnb HMK3BFZYWP", in:"חמישי 12/11, אחרי 15:00", out:"שני 16/11, עד 10:00", entry:"קופסת מפתח", pay:"חיוב שני 28/10"},
   tokyo:{name:"Cure Azumabashi", area:"אזומבאשי", jp:"東京都墨田区吾妻橋3-1-16", en:"Azumabashi 3-1-16, Sumida-ku, Tokyo", tel:"+81 80-8500-9217", ref:"Booking 5280344652", in:"שני 16/11, מ-15:00", out:"חמישי 19/11, עד 10:00", entry:"קודים אחרי טופס צ'ק-אין מוקדם", pay:"חיוב אוטומטי"}
@@ -22,18 +22,19 @@ const GEO={
   takayama:[36.1475833,137.2516883,"ChIJ--pInsO7AmARSyjwmRl1g18"],
   fuji:[35.527111,138.7415619,"ChIJobSGCAtfGWARkyoMTfifmn8"],
   hakone:[35.2305935,139.0478071,"ChIJh5AsxgyiGWAR_N6mO3thlmI"],
-  tokyo:[35.7082342,139.8048276,"ChIJf_k_hsiPGGARqjFi_6xAwAE"]
+  tokyo:[35.7082342,139.8048276,"ChIJf_k_hsiPGGARqjFi_6xAwAE"],
+  kiso:[35.67088901011873,137.6290027052164] /* coordinates from the Airbnb reminder email, 27/10 */
 };
-const PG=k=>`https://www.google.com/maps/search/?api=1&query=${GEO[k][0]},${GEO[k][1]}&query_place_id=${GEO[k][2]}`;
-const NAV=k=>GEO[k]?`https://www.google.com/maps/dir/?api=1&destination=${GEO[k][0]},${GEO[k][1]}&destination_place_id=${GEO[k][2]}`:null;
+const PG=k=>`https://www.google.com/maps/search/?api=1&query=${GEO[k][0]},${GEO[k][1]}`+(GEO[k][2]?`&query_place_id=${GEO[k][2]}`:"");
+const NAV=k=>GEO[k]?`https://www.google.com/maps/dir/?api=1&destination=${GEO[k][0]},${GEO[k][1]}`+(GEO[k][2]?`&destination_place_id=${GEO[k][2]}`:""):null;
 const BK="https://secure.booking.com/myreservations.html";
 const EXTRA={
   kyoto:{links:[["ההזמנה ב-Booking",BK],["רישום אורחים (minpakuin)","https://connect.minpakuin.jp/register/AAABs7zzjjTgJ4jHWzIWVvF4jJlhVVAfa3o?page=Terminal"]],
     ci:["קוד הזמנה לטאבלט שבכניסה: 049973","קוד לדלת חדר 201: 9370* (כולל הכוכבית)","Wi-Fi — רשת: 112406165816 · סיסמה: 37567443"]},
   takayama:{links:[["ההזמנה ב-Booking",BK]],
     ci:["צ'ק-אין דיגיטלי 15:00–23:00.","להציג את מספר הצ'ק-אין M261011700240 עם תעודה מזהה.","חניה חינם במקום."]},
-  kiso:{links:[["דף הדירה ב-Airbnb","https://he.airbnb.com/rooms/1626760379560685769"],["ההזמנה ב-Airbnb","https://he.airbnb.com/reservation/itinerary?code=HMZ4Q4JH2T"]],
-    ci:["כניסה עצמית מ-15:00 עם קופסת מפתח. הכתובת וקוד הקופסה — באפליקציית Airbnb.","ההורים של Miwa מקבלים את האורחים בקיסו.","חניה חינם, 4 מקומות. כיריים גז — לאוורר בבישול."]},
+  kiso:{links:[["דף הדירה ב-Airbnb","https://he.airbnb.com/rooms/1626760379560685769"],["ההזמנה ב-Airbnb","https://he.airbnb.com/trips/v1/reservation-details/ro/RESERVATION2_CHECKIN/HMZ4Q4JH2T"],["מדריך הצ'ק-אין ב-Airbnb (קוד הקופסה)","https://he.airbnb.com/trips/v1/reservation-details/ro/RESERVATION2_CHECKIN/HMZ4Q4JH2T/check-in-guide"]],
+    ci:["כניסה עצמית מ-15:00 עם קופסת מפתח. קוד הקופסה — במדריך הצ'ק-אין ב-Airbnb (קישור למטה).","ההורים של Miwa מקבלים את האורחים בקיסו.","חניה חינם, 4 מקומות. כיריים גז — לאוורר בבישול."]},
   fuji:{links:[["תמונות ופרטים (אותו בית ב-Airbnb)","https://he.airbnb.com/rooms/1483148798878318978"],["ההזמנה ב-Booking",BK]],
     ci:["להודיע מראש על שעת ההגעה. הנחיות הכניסה נשלחות במייל.","צ'ק-אין 16:00–22:00. חניה מקורה.","שעות שקט 21:00–08:00 — יש שכנים."]},
   hakone:{links:[["דף הבית ב-Airbnb","https://he.airbnb.com/rooms/2794750"],["ההזמנה ב-Airbnb","https://he.airbnb.com/trips/v1/reservation-details/ro/RESERVATION2_CHECKIN/HMK3BFZYWP"]],
@@ -42,8 +43,6 @@ const EXTRA={
     ci:["למלא טופס צ'ק-אין מוקדם עם צילומי דרכון — בתמורה מקבלים את הקודים.","המפתחות במקום מוסתר בנכס, לפי ההנחיות שיישלחו.","צ'ק-אין מ-15:00 — להודיע מראש על שעת ההגעה.","תחנת Honjo-Azumabashi, קו אסקוסה — פחות מ-5 דקות."]}
 };
 Object.keys(EXTRA).forEach(k=>Object.assign(STAYS[k],EXTRA[k],{nav:NAV(k),map:GEO[k]?PG(k):null}));
-/* Kiso: address not sent yet by Airbnb — navigation via the Airbnb itinerary */
-STAYS.kiso.nav="https://he.airbnb.com/reservation/itinerary?code=HMZ4Q4JH2T";STAYS.kiso.navLabel="כתובת וניווט ב-Airbnb";
 const CHECKIN_DAY={"10-29":"kyoto","11-02":"takayama","11-05":"kiso","11-08":"fuji","11-12":"hakone","11-16":"tokyo"};
 const LINKS={
   etihad:["ניהול ההזמנה 88ZR7T ב-Etihad","https://digital.etihad.com/selfservice/en/ssg-landing-page?pnr=88ZR7T&lastName=ARICHA"],
