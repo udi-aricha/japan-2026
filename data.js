@@ -160,7 +160,7 @@ const DAYS = [
    ["ויוובארפוט קיוטו","בצפון העיר, כרבע שעה במונית",PM("VIVOBAREFOOT KYOTO",KID.vivo),0,KP.vivo],
    ["קודאי-ג'י בתאורת ערב","אם לא הספקתם ביום שישי",PM("Kodai-ji",KID.kodaiji),1,KP.kodaiji]]},
  {d:"11-02",dow:"שני",r:"takayama",sleep:"takayama",title:"עולים להרים",
-  fx:[["09:00","איסוף רכב — טויוטה","Sanjo Keihan-Kita · 99937466600 · טל' 075-762-0115","","toyota"],["10:00","צ'ק-אאוט מ-a-un"],["15:00–23:00","צ'ק-אין ב-Stay Maison","צ'ק-אין דיגיטלי"]],
+  fx:[["09:00","איסוף רכב — טויוטה","Sanjo Keihan-Kita · 99937466600 · טל' 075-762-0115 · רישיון בינלאומי + ישראלי + דרכון לשניכם","","toyota"],["10:00","צ'ק-אאוט מ-a-un"],["15:00–23:00","צ'ק-אין ב-Stay Maison","צ'ק-אין דיגיטלי"]],
   pl:[["טויוטה Sanjo Keihan-Kita","נקודת האיסוף",G("Toyota Rent a Car Sanjo Keihan-Kita Kyoto")]]},
  {d:"11-03",dow:"שלישי",r:"takayama",sleep:"takayama",title:"הכפר שיראקאווה-גו",
   fx:[],pl:[["שיראקאווה-גו","בתי הגג המשולש · חג לאומי, להגיע מוקדם",G("Shirakawa-go")],["תצפית אוגימאצ'י","מבט על הכפר מלמעלה",S("Ogimachi Castle Observatory")]]},
