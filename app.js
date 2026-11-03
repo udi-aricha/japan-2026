@@ -56,13 +56,14 @@ function dayView(k){
   const st=x.sleep?`<details class="fold tonightfold"${CHECKIN_DAY[k]===x.sleep?" open":""}><summary>ישנים הלילה · ${esc(STAYS[x.sleep].name)}<span class="small muted" style="font-weight:400">${esc(STAYS[x.sleep].area)}</span></summary><div class="tonight">${stayBlock(x.sleep,false,CHECKIN_DAY[k]===x.sleep)}</div></details>`:"";
   const pts=mapPts(x);
   const mp=pts.length?`<section class="daymapbox"><div id="daymap" class="daymap" role="img" aria-label="מפת המקומות של היום"></div><p class="small muted maphint">מספרים = המקומות ברשימה · 🏠 = הלינה. לחיצה על נקודה פותחת אותה בגוגל מפות.</p></section>`:"";
+  const wm=(x.walk||[]).map(w=>`<details class="fold pinfo"><summary>${esc(w.t)}</summary><a href="${w.src}" target="_blank" rel="noopener"><img src="${w.src}" alt="${esc(w.t)}" style="width:100%;margin-top:8px;border-radius:8px;background:#fff"></a>${w.n?`<p class="small muted" style="margin:6px 0 0">${esc(w.n)}</p>`:""}</details>`).join("");
   const prev=DAYS[i-1], next=DAYS[i+1];
   return `<div class="stack rg-${x.r}">
     <div class="hero" data-r="${x.r}"><canvas aria-hidden="true"></canvas>
       <div class="kanji" lang="ja" aria-hidden="true">${R.k}</div>
       <div class="meta">${i===0&&daysToGo()>0?`עוד ${daysToGo()} ימים · `:""}יום ${i+1} מתוך ${DAYS.length} · ${x.dow} ${fmt(x.d)}</div>
       <h1>${esc(x.title)}</h1><div class="where">${esc(R.he)}</div></div>
-    ${sh}${mp}${tk}${fx}${pl}${st}
+    ${sh}${mp}${wm}${tk}${fx}${pl}${st}
     <div class="pager">${prev?`<button class="btn" data-go="${prev.d}">→ ${prev.dow} ${fmt(prev.d)}</button>`:"<span></span>"}${next?`<button class="btn" data-go="${next.d}">${next.dow} ${fmt(next.d)} ←</button>`:""}</div>
     <div class="sync"><i class="${navigator.onLine?"on":"off"}"></i>${navigator.onLine?"מחובר":"בלי קליטה — מוצגת הגרסה השמורה"} · עודכן ${UPDATED}</div>
   </div>`;
