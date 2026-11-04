@@ -163,6 +163,13 @@ function drawQR(c){const x=c.getContext("2d"),n=25;let s=+c.dataset.seed*9301;co
  x.fillStyle="#fff";x.fillRect(0,0,n,n);x.fillStyle="#111";for(let i=0;i<n;i++)for(let j=0;j<n;j++)if(r()>.55)x.fillRect(i,j,1,1);
  [[0,0],[n-7,0],[0,n-7]].forEach(([a,b])=>{x.fillStyle="#111";x.fillRect(a,b,7,7);x.fillStyle="#fff";x.fillRect(a+1,b+1,5,5);x.fillStyle="#111";x.fillRect(a+2,b+2,3,3)});}
 window.addEventListener("resize",()=>document.querySelectorAll(".hero").forEach(drawHero));
+/* swipe between days (today tab): left = previous day, right = next day; ignores vertical scroll and the map */
+(()=>{const v=document.getElementById("view");let sx=0,sy=0,ok=false;
+ v.addEventListener("touchstart",e=>{ok=tab==="today"&&e.touches.length===1&&!e.target.closest(".daymap,.leaflet-container,input,textarea");if(ok){sx=e.touches[0].clientX;sy=e.touches[0].clientY}},{passive:true});
+ v.addEventListener("touchend",e=>{if(!ok)return;ok=false;const t=e.changedTouches[0],dx=t.clientX-sx,dy=t.clientY-sy;
+  if(Math.abs(dx)<60||Math.abs(dx)<Math.abs(dy)*1.8)return;
+  const i=DAYS.findIndex(x=>x.d===cur),j=dx<0?i-1:i+1;if(j<0||j>=DAYS.length)return;cur=DAYS[j].d;show("today")},{passive:true});})();
+
 render();
 
 window.addEventListener("online",render);window.addEventListener("offline",render);
