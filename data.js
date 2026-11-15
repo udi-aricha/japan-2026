@@ -13,7 +13,7 @@ const STAYS = {
   kiso:{name:"Shukutaku Kotori", area:"אוקווה", jp:"長野県木曽郡大桑村野尻2589", en:"2589 Nojiri, Okuwa, Kiso District, Nagano 399-5504", tel:"+81 80-5457-8226 (Miwa)", ref:"Airbnb HMZ4Q4JH2T", in:"חמישי 5/11, מ-15:00", out:"ראשון 8/11, עד 10:00", entry:"קופסת מפתח", pay:"שולם (23/10)"},
   fuji:{name:"TOCORO Mt Fuji Shizuku", area:"אוישי, קוואגוצ'יקו", jp:"山梨県南都留郡富士河口湖町大石58-3", en:"58-3 Oishi, Fujikawaguchiko", tel:"+81 555-72-9031", ref:"Booking 5275305990", in:"ראשון 8/11, 16:00–22:00", out:"חמישי 12/11, עד 10:00", entry:"הנחיות במייל", pay:"שולם"},
   hakone:{name:"Hot-Spring House in Hakone", area:"קוואקודאני", jp:"神奈川県足柄下郡箱根町小涌谷443-165", en:"Kowakudani 443-165, Hakone", tel:"+81 90-5580-8410 (Gabriel)", ref:"Airbnb HMK3BFZYWP", in:"חמישי 12/11, אחרי 15:00", out:"שני 16/11, עד 10:00", entry:"כספת מפתחות — קוד 1027", pay:"חיוב שני 28/10"},
-  tokyo:{name:"Cure Azumabashi", area:"אזומבאשי", jp:"東京都墨田区吾妻橋3-1-16", en:"Azumabashi 3-1-16, Sumida-ku, Tokyo", tel:"+81 80-8500-9217", ref:"Booking 5280344652", in:"שני 16/11, מ-15:00", out:"חמישי 19/11, עד 10:00", entry:"קודים אחרי טופס צ'ק-אין מוקדם", pay:"חיוב אוטומטי"}
+  tokyo:{name:"Cure Azumabashi", area:"אזומבאשי", jp:"東京都墨田区吾妻橋3-1-16", en:"Azumabashi 3-1-16, Sumida-ku, Tokyo", tel:"+81 80-8500-9217", ref:"Booking 5280344652", in:"שני 16/11, מ-15:00", out:"חמישי 19/11, עד 10:00", entry:"חדר 701 · אינטרקום בכניסה לבניין + תיבת מפתח עם קוד", pay:"חיוב אוטומטי"}
 };
 
 /* exact locations (Google Maps place IDs) — navigation goes to coordinates, not to a text address */
@@ -40,7 +40,7 @@ const EXTRA={
   hakone:{links:[["דף הבית ב-Airbnb","https://he.airbnb.com/rooms/2794750"],["ההזמנה ב-Airbnb","https://he.airbnb.com/trips/v1/reservation-details/ro/RESERVATION2_CHECKIN/HMK3BFZYWP"]],
     ci:["כניסה עצמית אחרי 15:00 עם כספת מפתחות. הקוד: 1027.","לא להגיע לפני 15:00 בלי לתאם מראש עם Gabriel.","הוראות כניסה עם תמונות — בדף ההזמנה ב-Airbnb.","חניה פרטית ל-2 רכבים.","אין מכולת במרחק הליכה — להגיע עם קניות.","ביציאה 16/11: צ'ק-אאוט עד 10:00. ממשיכים עם הרכב עד הדירה בטוקיו."]},
   tokyo:{links:[["ההזמנה ב-Booking",BK]],
-    ci:["למלא טופס צ'ק-אין מוקדם עם צילומי דרכון — בתמורה מקבלים את הקודים.","המפתחות במקום מוסתר בנכס, לפי ההנחיות שיישלחו.","צ'ק-אין מ-15:00 — להודיע מראש על שעת ההגעה.","תחנת Honjo-Azumabashi, קו אסקוסה — פחות מ-5 דקות."]}
+    ci:["חדר 701 (קומה 7).","כניסה לבניין — אינטרקום עם מסך מגע: לוחצים על 部屋呼出 (Call room). במקלדת שנפתחת לוחצים קודם על הכפתור הטורקיז 呼出 (Call), ורק אז מקישים 0503. הכפתור לפני הספרות, לא אחריהן.","המפתח לחדר 701 — תיבת מפתח עם מקלדת: מקישים 137665 ואז לוחצים על כפתור המנעול הירוק (מימין למטה). בלי המנעול הירוק התיבה לא נפתחת.","צ'ק-אין מ-15:00.","ביציאה 19/11: לצאת עד 10:00 בדיוק. אשפה ממוינת נשארת בדירה. מחזירים את המפתח לתיבת המפתח.","תחנת Honjo-Azumabashi, קו אסקוסה — פחות מ-5 דקות."]}
 };
 Object.keys(EXTRA).forEach(k=>Object.assign(STAYS[k],EXTRA[k],{nav:NAV(k),map:GEO[k]?PG(k):null}));
 const CHECKIN_DAY={"10-29":"kyoto","11-02":"takayama","11-05":"kiso","11-08":"fuji","11-12":"hakone","11-16":"tokyo"};
