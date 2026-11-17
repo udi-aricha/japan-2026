@@ -42,7 +42,10 @@ function drawDayMap(){const el=document.getElementById("daymap");if(!el)return;c
       L.marker(q.c,{icon:ic,title:q.n}).addTo(m).bindPopup(`<b>${esc(q.n)}</b><br><a href="${q.u}" target="_blank" rel="noopener">פתח בגוגל מפות ↗</a>`);all.push(q.c)});
     const g=x.sleep&&GEO[x.sleep];if(g){const ic=L.divIcon({className:"mk home",html:"<span>🏠</span>",iconSize:[30,30],iconAnchor:[15,15]});
       L.marker([g[0],g[1]],{icon:ic,title:STAYS[x.sleep].name}).addTo(m).bindPopup(`<b>${esc(STAYS[x.sleep].name)}</b>`);all.push([g[0],g[1]])}
-    m.fitBounds(all,{padding:[24,24],maxZoom:16});
+    const ln=x.lines||[],lb=[];
+    ln.forEach(l=>{const o=l.poly?L.polygon(l.c,{color:l.col,weight:2,dashArray:"6 6",fillOpacity:.07}):L.polyline(l.c,{color:l.col,weight:7,opacity:.85,lineCap:"round"});
+      o.addTo(m).bindTooltip(esc(l.n),l.poly?{sticky:true}:{permanent:true,direction:"center",className:"lnlbl"});l.c.forEach(c=>lb.push(c))});
+    m.fitBounds(lb.length?lb:all,{padding:[24,24],maxZoom:16});
   }).catch(()=>{const h=el.parentNode.querySelector('.maphint');if(h)h.remove();el.outerHTML='<div class="free small">המפה לא נטענה — אין קליטה. המקומות ברשימה למטה.</div>'})}
 function dayView(k){
   const i=DAYS.findIndex(x=>x.d===k), x=DAYS[i], R=REG[x.r];
@@ -55,7 +58,7 @@ function dayView(k){
   const pl=x.pl.length?`<section class="stack" style="gap:8px"><h2>${x.done?'איפה היינו':'מה יש היום'}</h2><div class="places">${x.pl.map(p=>`<div class="place"><span class="pin">${p[4]&&p[4].c?`<b class="num">${mapPts(x).findIndex(m=>m.p===p)+1}</b>`:PIN}</span><div class="body"><h3>${esc(p[0])}${p[3]&&!x.done?'<span class="tag">הצעה</span>':""}</h3><p>${esc(p[1])}</p>${p[5]?`<p class="our">${esc(p[5])}</p>`:""}${info(p[4])}${x.guide&&x.pl.indexOf(p)===(x.guide.at||0)?gd:""}</div><a class="go" href="${p[2]}" target="_blank" rel="noopener">לשם</a></div>`).join("")}</div></section>`:(x.free?`<div class="free">${esc(x.free)}</div>`:"");
   const st=x.sleep?`<details class="fold tonightfold"${CHECKIN_DAY[k]===x.sleep?" open":""}><summary>ישנים הלילה · ${esc(STAYS[x.sleep].name)}<span class="small muted" style="font-weight:400">${esc(STAYS[x.sleep].area)}</span></summary><div class="tonight">${stayBlock(x.sleep,false,CHECKIN_DAY[k]===x.sleep)}</div></details>`:"";
   const pts=mapPts(x);
-  const mp=pts.length?`<section class="daymapbox"><div id="daymap" class="daymap" role="img" aria-label="מפת המקומות של היום"></div><p class="small muted maphint">מספרים = המקומות ברשימה · 🏠 = הלינה. לחיצה על נקודה פותחת אותה בגוגל מפות.</p></section>`:"";
+  const mp=pts.length?`<section class="daymapbox"><div id="daymap" class="daymap" role="img" aria-label="מפת המקומות של היום"></div>${(x.lines||[]).length?`<div class="lnleg">${x.lines.map(l=>`<span><i style="background:${l.col}${l.poly?';opacity:.35':''}"></i>${esc(l.n)}${l.d?` — <span class="muted">${esc(l.d)}</span>`:""}</span>`).join("")}</div>`:""}<p class="small muted maphint">מספרים = המקומות ברשימה · 🏠 = הלינה. לחיצה על נקודה פותחת אותה בגוגל מפות.</p></section>`:"";
   const wm=(x.walk||[]).map(w=>`<details class="fold pinfo"><summary>${esc(w.t)}</summary><a href="${w.src}" target="_blank" rel="noopener"><img src="${w.src}" alt="${esc(w.t)}" style="width:100%;margin-top:8px;border-radius:8px;background:#fff"></a>${w.n?`<p class="small muted" style="margin:6px 0 0">${esc(w.n)}</p>`:""}</details>`).join("");
   const prev=DAYS[i-1], next=DAYS[i+1];
   return `<div class="stack rg-${x.r}">
