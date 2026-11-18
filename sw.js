@@ -1,6 +1,6 @@
 /* Offline support: app files cached on install; data.js fetched fresh when online, cached copy when offline. */
-const VERSION = "v26-2026-11-17";
-const CORE = ["./", "index.html", "app.js", "data.js", "manifest.webmanifest", "icon-192.png", "icon-512.png", "bp/bp-udi-ey608.png", "bp/bp-udi-ey800.png", "bp/bp-miri-ey608.png", "bp/bp-miri-ey800.png", "bp/vjw-udi.png", "bp/vjw-miri.png", "maps/kamikochi-walking.svg"];
+const VERSION = "v27-2026-11-18";
+const CORE = ["./", "index.html", "app.js", "data.js", "manifest.webmanifest", "icon-192.png", "icon-512.png", "bp/bp-udi-ey608.png", "bp/bp-udi-ey800.png", "bp/bp-miri-ey608.png", "bp/bp-miri-ey800.png", "bp/bp-udi-ey801.png", "bp/bc-udi-ey801.png", "bp/bp-miri-ey801.png", "bp/bc-miri-ey801.png", "bp/bp-udi-ey595.png", "bp/bc-udi-ey595.png", "bp/bp-miri-ey595.png", "bp/bc-miri-ey595.png", "bp/vjw-udi.png", "bp/vjw-miri.png", "maps/kamikochi-walking.svg"];
 self.addEventListener("install", e => {
   e.waitUntil(caches.open(VERSION).then(c => c.addAll(CORE.map(u => new Request(u, { cache: "reload" })))).then(() => self.skipWaiting()));
 });

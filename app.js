@@ -95,22 +95,28 @@ function vjwFold(){
   if(typeof VJW==="undefined")return "";
   return `<details class="fold"><summary>קוד QR לכניסה ליפן</summary>${vjwImgs()}<p class="small muted" style="margin:8px 0 0">${esc(VJW.note)}</p></details>`;
 }
+// כרטיס עלייה: ברקוד מוגדל לסריקה (אם יש) ואחריו תמונת הכרטיס
+function bpImgs(P,L,mt){
+  const bc=P[3]?`<a href="${P[3]}" target="_blank" rel="noopener"><img src="${P[3]}" alt="ברקוד לסריקה ${P[0]} ${L.f}" style="width:100%;margin-top:${mt}px;border-radius:8px;background:#fff;image-rendering:pixelated"></a><div class="small muted">ברקוד לסריקה בשער · להגביר בהירות מסך</div>`:"";
+  const card=P[2]?`<a href="${P[2]}" target="_blank" rel="noopener"><img src="${P[2]}" alt="כרטיס עלייה ${P[0]} ${L.f}" style="width:100%;margin-top:${P[3]?8:mt}px;border-radius:8px;background:#fff"></a>`:"";
+  return bc+card;
+}
 function bpFold(label){
   if(typeof BOARDING==="undefined")return "";
   const L=BOARDING.legs.find(l=>String(label).startsWith(l.f));if(!L)return "";
   const have=L.pax.filter(P=>P[2]);
-  const body=have.length?have.map(P=>`<div class="small" style="margin-top:8px"><b>${P[0]}</b> · מושב <span class="mono">${P[1]}</span></div><a href="${P[2]}" target="_blank" rel="noopener"><img src="${P[2]}" alt="כרטיס עלייה ${P[0]} ${L.f}" style="width:100%;margin-top:4px;border-radius:8px;background:#fff"></a>${BOARDING.wallet[P[0]]?`<div class="btns" style="margin-top:4px"><a class="btn sm" href="${BOARDING.wallet[P[0]]}" target="_blank" rel="noopener">${P[0]} — הכרטיס באתר Etihad</a></div>`:""}`).join(""):`<p class="small muted" style="margin:8px 0 0">${esc(L.note||"כרטיסי עלייה עוד לא התקבלו — אחרי הצ'ק-אין.")}</p>`;
+  const body=have.length?have.map(P=>`<div class="small" style="margin-top:8px"><b>${P[0]}</b> · מושב <span class="mono">${P[1]}</span></div>${bpImgs(P,L,4)}${(L.wallet||BOARDING.wallet)[P[0]]?`<div class="btns" style="margin-top:4px"><a class="btn sm" href="${(L.wallet||BOARDING.wallet)[P[0]]}" target="_blank" rel="noopener">${P[0]} — הכרטיס באתר Etihad</a></div>`:""}`).join(""):`<p class="small muted" style="margin:8px 0 0">${esc(L.note||"כרטיסי עלייה עוד לא התקבלו — אחרי הצ'ק-אין.")}</p>`;
   return `<details class="fold"><summary>כרטיסי עלייה${have.length?` · עלייה ${L.board}, קבוצה ${L.group}`:""}</summary>${body}</details>`;
 }
 function tixView(){
   const B=BOARDING;
   const grp=(title,sub,body,cls="")=>`<details class="fold grp ${cls}"><summary><div><div class="gt">${title}</div>${sub?`<div class="small muted">${sub}</div>`:""}</div></summary>${body}</details>`;
   const leg=L=>`<div class="leg"><div style="display:flex;justify-content:space-between;align-items:baseline"><h3 class="mono" style="font-size:20px">${L.f}</h3><span class="small muted">${L.date}</span></div><div>${L.route}</div><div class="small muted"><span class="mono">${L.dep}</span> ${esc(L.from)} → <span class="mono">${L.arr}</span> ${esc(L.to)}</div>${L.board?`<div class="small" style="margin-top:4px">עלייה למטוס <b class="mono">${L.board}</b> · קבוצה ${L.group}</div>`:""}
-    ${L.pax.map(P=>`<div class="ticket"><div class="small"><b>${P[0]}</b> · מושב <span class="mono">${P[1]}</span></div>${P[2]?`<a href="${P[2]}" target="_blank" rel="noopener"><img src="${P[2]}" alt="כרטיס עלייה ${P[0]} ${L.f}" style="width:100%;margin-top:8px;border-radius:8px;background:#fff"></a>`:`<div class="small muted" style="margin-top:6px">${L.note&&P[0]==="אודי"?esc(L.note):"כרטיס עלייה — עוד לא התקבל"}</div>`}</div>`).join("")}
-    <div class="btns">${L.pax.filter(P=>P[2]&&B.wallet[P[0]]).map(P=>`<a class="btn" href="${B.wallet[P[0]]}" target="_blank" rel="noopener">${P[0]} — באתר Etihad</a>`).join("")}</div></div>`;
+    ${L.pax.map(P=>`<div class="ticket"><div class="small"><b>${P[0]}</b> · מושב <span class="mono">${P[1]}</span></div>${P[2]?bpImgs(P,L,8):`<div class="small muted" style="margin-top:6px">${L.note&&P[0]==="אודי"?esc(L.note):"כרטיס עלייה — עוד לא התקבל"}</div>`}</div>`).join("")}
+    <div class="btns">${L.pax.filter(P=>P[2]&&(L.wallet||B.wallet)[P[0]]).map(P=>`<a class="btn" href="${(L.wallet||B.wallet)[P[0]]}" target="_blank" rel="noopener">${P[0]} — באתר Etihad</a>`).join("")}</div></div>`;
   const out=B.legs.slice(0,2), back=B.legs.slice(2);
   const vj=typeof VJW!=="undefined"?grp("כניסה ליפן — Visit Japan Web",`ביקורת גבולות ומכס · נרשם ${VJW.checked}`,`<p class="small muted" style="margin:4px 0 0">${esc(VJW.note)} לחיצה על קוד פותחת אותו בגודל מלא.</p>${vjwImgs()}`):"";
-  return `<h1 style="font-size:28px">כרטיסים</h1><p class="muted small" style="margin:4px 0 12px">הזמנה <span class="mono">${B.ref}</span> · צ'ק-אין להלוך בוצע ${B.checked}. לחיצה על קבוצה פותחת אותה; לחיצה על כרטיס פותחת אותו בגודל מלא.</p><div class="stack" style="gap:0">
+  return `<h1 style="font-size:28px">כרטיסים</h1><p class="muted small" style="margin:4px 0 12px">הזמנה <span class="mono">${B.ref}</span> · צ'ק-אין להלוך בוצע ${B.checked}${B.checkedBack?`, לחזור ${B.checkedBack}`:""}. לחיצה על קבוצה פותחת אותה; לחיצה על כרטיס פותחת אותו בגודל מלא.</p><div class="stack" style="gap:0">
    ${grp("טיסות הלוך",`${out.map(L=>L.f).join(" · ")} · ${out[0].date}`,out.map(leg).join("")+`<div class="btns" style="margin-bottom:4px">${lnk(LINKS.etihad)}</div>`,"rg-air")}
    ${vj}
    ${typeof SUICA!=="undefined"?grp("כרטיס תחבורה — Welcome Suica","קונים בנריטה 29/10 · כרטיס לכל אחד",suicaBody()):""}

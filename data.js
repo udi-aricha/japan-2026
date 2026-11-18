@@ -250,27 +250,29 @@ const DAYS = [
    ["Sakazen ניהונבאשי — מידות גדולות","על קו אסקוסה, תחנת היגאשי-ניהונבאשי. רשות",PM("Sakazen Nihonbashi Main Store","ChIJo_YIU02JGGARHbBQ-hM5SXw"),1,{c:[35.6934377,139.7829811],h:"10:30–19:30",p:"",v:"גוגל מפות",links:[["ניווט",ND([35.6934377,139.7829811],"ChIJo_YIU02JGGARHbBQ-hM5SXw")]]}],
    ["ארוחת ערב — David's Deli (כשר)","ליד חב\"ד טקנאווה. קו אסקוסה ישיר לסנגקוג'י, ומשם ישיר הביתה",PM("David's Deli Kosher","ChIJAdqQKa-LGGARycFzu2FMTxk"),1,{c:[35.6448159,139.7374766],h:"17:00–21:45",p:"",v:"גוגל מפות",links:[["ניווט",ND([35.6448159,139.7374766],"ChIJAdqQKa-LGGARycFzu2FMTxk")]]}]]},
  {d:"11-19",dow:"חמישי",r:"air",sleep:null,title:"להתראות, יפן",
-  fx:[["10:00","צ'ק-אאוט"],["~15:00","להגיע לנריטה","טרמינל 1"],["17:20","EY 801 לאבו דאבי","40H / 40J","","etihad"]],pl:[]},
+  fx:[["10:00","צ'ק-אאוט"],["~15:00","להגיע לנריטה","טרמינל 1"],["17:35","EY 801 לאבו דאבי","40H / 40J · עלייה 16:40 (היה 17:20)","","etihad"]],pl:[]},
  {d:"11-20",dow:"שישי",r:"air",sleep:null,title:"בבית",
-  fx:[["03:25","EY 595 לתל אביב","07D / 07E","","etihad"],["05:05","נחיתה בנתב\"ג"]],pl:[]}
+  fx:[["03:25","EY 595 לתל אביב","07D / 07E · עלייה 02:40","","etihad"],["05:25","נחיתה בנתב\"ג","היה 05:05"]],pl:[]}
 ];
 
 // Visit Japan Web — קוד QR אחד לביקורת גבולות ולמכס, לכל נוסע. נרשם 27/10.
 const VJW={checked:"27/10",pax:[["אודי","bp/vjw-udi.png"],["מירי","bp/vjw-miri.png"]],
  note:"קוד אחד לכל נוסע — לביקורת הגבולות ולעמדת המכס. אם משנים פרטים באתר, צריך להפיק קוד חדש."};
 
-// כרטיסי עלייה — צ'ק-אין אונליין 27/10 (מייל Etihad "You're checked in")
-const BOARDING={ref:"88ZR7T",checked:"27/10",
+// כרטיסי עלייה — צ'ק-אין אונליין 27/10 להלוך, 18/11 לחזור (מיילי Etihad "You're checked in")
+// pax: [שם, מושב, תמונת הכרטיס, ברקוד מוגדל לסריקה]. wallet ברמת הטיסה גובר על הכללי.
+const WB={"אודי":"https://digital.etihad.com/onlinecheckin/journey/boarding-pass-page?j=69E4AED4113C79C14CF85597F5075B059EC5EDB51795179028&t=310AD6CA002A23E1&lang=en","מירי":"https://digital.etihad.com/onlinecheckin/journey/boarding-pass-page?j=69E4AED4113C79C14CF85597F5075B059EC5EDB51795179028&t=310AD6CA002A23E2&lang=en"};
+const BOARDING={ref:"88ZR7T",checked:"27/10",checkedBack:"18/11",
  wallet:{"אודי":"https://digital.etihad.com/onlinecheckin/journey/boarding-pass-page?j=E0DD1D1B8005A9B5434A119A88100C888CDA5D8E1793256180&t=310AD6CA002A23E1&lang=en","מירי":"https://digital.etihad.com/onlinecheckin/journey/boarding-pass-page?j=E0DD1D1B8005A9B5434A119A88100C888CDA5D8E1793256180&t=310AD6CA002A23E2&lang=en"},
  legs:[
   {f:"EY 608",route:"תל אביב ← אבו דאבי",date:"רביעי 28/10",dep:"14:25",arr:"19:25",from:"נתב\"ג טרמינל 3",to:"אבו דאבי טרמינל A",board:"13:35",group:"5",
    pax:[["אודי","7B","bp/bp-udi-ey608.png"],["מירי","7C","bp/bp-miri-ey608.png"]]},
   {f:"EY 800",route:"אבו דאבי ← נריטה",date:"רביעי 28/10",dep:"22:20",arr:"13:15 (חמישי 29/10)",from:"אבו דאבי טרמינל A",to:"נריטה טרמינל 1",board:"21:15",group:"5",
    pax:[["אודי","64A","bp/bp-udi-ey800.png"],["מירי","64B","bp/bp-miri-ey800.png"]]},
-  {f:"EY 801",route:"נריטה ← אבו דאבי",date:"חמישי 19/11",dep:"17:20",arr:"00:40 (20/11)",from:"נריטה טרמינל 1",to:"אבו דאבי טרמינל A",board:"",group:"",
-   pax:[["אודי","40H",null],["מירי","40J",null]],note:"צ'ק-אין לחזור נפתח 30 שעות לפני — בערך 18/11 ב-11:20 שעון יפן."},
-  {f:"EY 595",route:"אבו דאבי ← תל אביב",date:"שישי 20/11",dep:"03:25",arr:"05:05",from:"אבו דאבי טרמינל A",to:"נתב\"ג טרמינל 3",board:"",group:"",
-   pax:[["אודי","07D",null],["מירי","07E",null]]}
+  {f:"EY 801",route:"נריטה ← אבו דאבי",date:"חמישי 19/11",dep:"17:35",arr:"00:50 (20/11)",from:"נריטה טרמינל 1",to:"אבו דאבי טרמינל A",board:"16:40",group:"6",wallet:WB,
+   pax:[["אודי","40H","bp/bp-udi-ey801.png","bp/bc-udi-ey801.png"],["מירי","40J","bp/bp-miri-ey801.png","bp/bc-miri-ey801.png"]]},
+  {f:"EY 595",route:"אבו דאבי ← תל אביב",date:"שישי 20/11",dep:"03:25",arr:"05:25",from:"אבו דאבי טרמינל A",to:"נתב\"ג טרמינל 3",board:"02:40",group:"5",wallet:WB,
+   pax:[["אודי","7D","bp/bp-udi-ey595.png","bp/bc-udi-ey595.png"],["מירי","7E","bp/bp-miri-ey595.png","bp/bc-miri-ey595.png"]]}
  ]};
 
 // כרטיס תחבורה טעין — הוחלט 27/10: Welcome Suica, כרטיס פיזי לכל אחד
